@@ -27,7 +27,7 @@ Tableau de score inspiré de celui de [Nekory](https://github.com/Nekory23) :
 Ce projet a été réalisé en trio avec :  
 
 - [**HenraL**](https://github.com/HenraL) – **Générateur et parseur de JSON**
-- [**OrionPX4K**](https://github.com/OrionPX4k) – **Développement dy client**
+- [**OrionPX4K**](https://github.com/OrionPX4k) – **Développement du client**
 - **Moi** – **Développement du serveur**
 
 ---
