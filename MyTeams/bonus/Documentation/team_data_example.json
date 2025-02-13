@@ -1,0 +1,47 @@
+{
+    "TeamUuid1":
+    {
+        "TeamName": "Name",
+        "TeamDescription": "Description",
+        "Channels":
+        [
+            {
+                "ChannelUuid": "uuid",
+                "ChannelName": "Name",
+                "ChannelDescription": "Description",
+                "Thread":
+                [
+                    {
+                        "ThreadUuid": "uuid",
+                        "ThreadSender": "UserUuid1",
+                        "ThreadTitle": "title",
+                        "ThreadBody": "body",
+                        "ThreadCreationTime": "time",
+                        "ThreadCreationTimeStr": "time",
+                        "ThreadComments":
+                        [
+                            {
+                                "CommentMessage": "tata",
+                                "CommentSender": "UserUuid1",
+                                "CommentSentTime": "time",
+                                "CommentSentTimeStr": "time"
+                            },
+                            {
+                                "CommentMessage": "titi",
+                                "CommentSender": "UserUuid2",
+                                "CommentSentTime": "time",
+                                "CommentSentTimeStr": "time"
+                            },
+                            {
+                                "CommentMessage": "toto",
+                                "CommentSender": "UserUuid1",
+                                "CommentSentTime": "time",
+                                "CommentSentTimeStr": "time"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

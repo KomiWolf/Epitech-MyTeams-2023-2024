@@ -1,0 +1,53 @@
+{
+    "UserUuid1":
+    {
+        "UserName": "name",
+        "Team":
+        [
+            "uuid"
+        ],
+        "DirectMessage":
+        {
+            "UserUuid2":
+            [
+                {
+                    "Msg": "Bonjour",
+                    "Sender": "UserUuid2",
+                    "SentTime": "time",
+                    "SentTimeStr": "time"
+                },
+                {
+                    "Msg": "Bonjour user2",
+                    "Sender": "UserUuid1",
+                    "SentTime": "time",
+                    "SentTimeStr": "time"
+                }
+            ]
+        }
+    },
+    "UserUuid2":
+    {
+        "UserName": "name",
+        "Teams":
+        [
+            "uuid",
+            "uuid"
+        ],
+        "DirectMessages":
+        {
+            "UserUuid1":
+            [
+                {
+                    "Msg": "Bonjour",
+                    "Who": "UserUuid2",
+                    "SentTime": "time"
+                },
+                {
+                    "Msg": "Bonjour user2",
+                    "Who": "UserUuid1",
+                    "SentTime": "time"
+                }
+            ]
+        }
+    }
+}

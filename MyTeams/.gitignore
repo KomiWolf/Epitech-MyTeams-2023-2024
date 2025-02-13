@@ -1,0 +1,14 @@
+.vscode/
+*.o
+*.a
+*.log
+vgcore.*
+*.gcno
+*.gcda
+test.*
+*.test
+*.txt
+*tmp*
+unit_tests
+myteams_cli
+myteams_server

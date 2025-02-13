@@ -1,0 +1,89 @@
+-------------------------------------------------------------------------------------------------------
+
+This is the documentation for our own rfc called het_rfc.
+
+-------------------------------------------------------------------------------------------------------
+
+Each group of reply-code:
+
+2xx : Success
+4xx : Error
+
+-------------------------------------------------------------------------------------------------------
+
+Teams commands from client to server:
+
+    /help <CRLF>                                                : Display the helper for the teams client to server commands
+    /login <"user_name"> <CRLF>                                 : Set the user_name used by the client
+    /logout <CRLF>                                              : Disconnect the client from the server
+    /users <CRLF>                                               : List every users that exist in the server
+    /user <"user_uuid"> <CRLF>                                  : Get details about the requested user
+    /send <"user_uuid"> <"message_body"> <CRLF>                 : Send a message to specific user
+    /messages <"user_uuid"> <CRLF>                              : Get all the messages exchanged with a specific user
+    /subscribe <"team_uuid"> <CRLF>                             : Subscribe a user to the events of a team and its sub directories
+    /subscribed <CRLF>                                          : Get all subscribed teams
+    /subscribed <"team_uuid"> <CRLF>                            : Get every users subscribed to a team
+    /unsubscribe <"team_uuid"> <CRLF>                           : Unsubscribe from a team
+    /use <"team_uuid"> <CRLF>                                   : Set the context to a team
+    /use <"team_uuid"> <"channel_uuid"> <CRLF>                  : Set the context to a team channel
+    /use <"team_uuid"> <"channel_uuid"> <"thread_uuid"> <CRLF>  : Set the context to a team thread
+    /create <"team_name"> <"team_description"> <CRLF>           : Create a new team (When the context is not defined)
+    /create <"channel_name"> <"channel_description"> <CRLF>     : Create a new channel (When team_uuid is defined)
+    /create <"thread_title"> <"thread_message"> <CRLF>          : Create a new thread (When team_uuid and channel_uuid are defined)
+    /create <"comment_body"> <CRLF>                             : Create a new reply (When team_uuid, channel_uuid and thread_uuid are defined)
+    /list <CRLF>                                                : List all existing teams (When the context is not defined)
+    /list <CRLF>                                                : list all existing channels (When team_uuid is defined)
+    /list <CRLF>                                                : list all existing threads (When team_uuid and channel_uuid are defined)
+    /list <CRLF>                                                : list all existing replies (When team_uuid, channel_uuid and thread_uuid are defined)
+    /info <CRLF>                                                : display currently logged-in user details (When the context is not defined)
+    /info <CRLF>                                                : display currently selected team details (When team_uuid is defined)
+    /info <CRLF>                                                : display currently selected channel details (When team_uuid and channel_uuid are defined)
+    /info <CRLF>                                                : display currently selected thread details (When team_uuid, channel_uuid and thread_uuid are defined)
+
+-------------------------------------------------------------------------------------------------------
+
+Teams command reply sequences:
+
+    Connection established:
+        <- 201 <"Client connected to server successfully"> <CRLF> - No log function
+
+    Command unknown:
+        <- 401 <"Command unknown"> <CRLF> - Log function : client_error_unauthorized(void);
+
+    User not connected:
+        <- 402 <"Login before using any commands"> <CRLF> - Log function : client_error_unauthorized(void);
+
+    General command parameter error:
+        <- 403 <"Parameter not set or too low"> <CRLF> - Log function : client_error_unauthorized(void);
+        <- 404 <"Parameter cannot be parsed"> <CRLF> (Example: /login <"user_uuid> <CRLF> If a '"' is forgotten) - Log function : client_error_unauthorized(void);
+        <- 405 <"Too many parameters"> <CRLF> - Log function : client_error_unauthorized(void);
+        <- 406 <"Parameter too long"> <CRLF> (Example: If a user name is longer than 32) - Log function : client_error_unauthorized(void);
+        <- 407 <"User uuid given does not exist"> <"user_uuid"> <CRLF> - Log Function : client_error_unknown_user(char const *user_uuid);
+
+    Internal server error:
+        <- 408 <"Internal server error"> <CRLF> - No log function
+
+    help ->
+        <- 202 <"List every supported command: /List of command/"> <CRLF> - No log function
+
+    login ->
+        <- 203 <"User logged in successfully"> <"user_uuid"> <"user_name"> <CRLF> - Log function : client_event_logged_in(char const *user_uuid, const char *user_name);
+        <- 409 <"User already logged"> <CRLF> - Log function : client_error_unauthorized(void);
+
+    logout (or lost connection) ->
+        <- 204 <"User logged out successfully"> <"user_uuid"> <"user_name"> <CRLF> - Log Function : client_event_logged_out(char const *user_uuid, const char *user_name);
+
+    users ->
+        <- 205 <"User list fetched successfully"> <"new_user"> <"user_uuid"> <"user_name"> <"status" (on/off)> ... <CRLF> - Log Function: client_print_users(char const *user_uuid, char const *user_name, int user_status);
+
+    user ->
+        <- 206 <"User information fetched successfully"> <"user_uuid"> <"user_name"> <"status" (on/off)> <CRLF> - Log Function : client_print_user(char const *user_uuid, char const *user_name, int user_status);
+
+    send ->
+        Sender: <- 207 <"Message sended successfully"> <CRLF> - No log function
+        Receiver: <- 208 <"A message has been received"> <"user_uuid"> <"message"> <CRLF> - Log Function : client_event_private_message_received(char const *user_uuid, char const *message_body);
+
+    messages ->
+        <- 209 <"Messages with /user_name/ retrived successfully"> <"new_message"> <"user_uuid"> <"timestamp"> <"messages"> ... <CRLF> - Log Function : client_private_message_print_messages(char const *sender_uuid, time_t message_timestamp, char const *message_body);
+
+-------------------------------------------------------------------------------------------------------
